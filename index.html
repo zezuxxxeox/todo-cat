@@ -162,6 +162,22 @@
         line-height: 1;
       }
 
+      .form-actions {
+        display: flex;
+        flex: 0 0 auto;
+        gap: 8px;
+      }
+
+      .form-actions > .primary-button,
+      .form-actions > .small-button {
+        width: 108px;
+        min-width: 108px;
+        height: 48px;
+        padding: 0 14px;
+        font-size: 14px;
+        line-height: 1;
+      }
+
       .field-group input:focus {
         border-color: rgb(14 116 144);
         box-shadow: 0 0 0 3px rgb(207 250 254);
@@ -773,6 +789,12 @@
           gap: 8px;
         }
 
+        .control-strip .field-group.min-w-64,
+        .control-strip .field-group.w-40 {
+          flex-basis: 100%;
+          width: 100%;
+        }
+
         .field-group {
           min-width: 0;
         }
@@ -797,6 +819,18 @@
           min-width: 0;
         }
 
+        .form-actions {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          width: 100%;
+        }
+
+        .form-actions .primary-button,
+        .form-actions .small-button {
+          width: 100%;
+          min-width: 0;
+        }
+
         .park-stage {
           min-height: 330px;
           border-radius: 20px;
@@ -809,12 +843,25 @@
           padding: 11px;
         }
 
+        .panel-title-block {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          align-items: center;
+          gap: 8px;
+          width: 100%;
+        }
+
         .panel-heading h2 {
-          font-size: 16px;
+          text-align: center;
+          font-size: 20px;
         }
 
         .panel-heading span {
-          font-size: 12px;
+          min-width: 0;
+          color: rgb(236 0 140);
+          text-align: center;
+          font-size: 20px;
+          font-weight: 950;
         }
 
         .panel-tabs {
@@ -858,6 +905,29 @@
         .small-button {
           padding: 6px 8px;
           font-size: 12px;
+        }
+
+        .petted-cat {
+          width: min(120vw, 620px);
+          max-height: 92dvh;
+          object-fit: contain;
+          transform: translate(0, 0) scale(1);
+          animation-name: pettedPopMobile;
+        }
+
+        @keyframes pettedPopMobile {
+          0% {
+            opacity: 0;
+            transform: translate(0, 0) scale(0.66);
+          }
+          60% {
+            opacity: 1;
+            transform: translate(0, 0) scale(1.27);
+          }
+          100% {
+            opacity: 1;
+            transform: translate(0, 0) scale(1.2);
+          }
         }
 
         .cat-sprite {
@@ -1123,8 +1193,10 @@
             <label for="task-deadline">마감 시간</label>
             <input id="task-deadline" type="time" name="deadline" data-deadline-input />
           </div>
-          <button class="primary-button" type="submit">추가</button>
-          <button class="small-button secondary" type="button" data-quick-add-toggle>빠른 추가</button>
+          <div class="form-actions">
+            <button class="primary-button" type="submit">추가</button>
+            <button class="small-button secondary" type="button" data-quick-add-toggle>빠른 추가</button>
+          </div>
         </form>
         <p class="message-line" role="alert" data-message></p>
         <div class="quick-add-panel" data-quick-add-panel hidden>
