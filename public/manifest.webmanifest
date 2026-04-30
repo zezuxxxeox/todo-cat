@@ -1,7 +1,8 @@
 {
   "name": "Todo Cat",
   "short_name": "Todo Cat",
-  "start_url": "./",
+  "start_url": "../",
+  "scope": "../",
   "display": "standalone",
   "background_color": "#ffd5e5",
   "theme_color": "#ffd5e5",
