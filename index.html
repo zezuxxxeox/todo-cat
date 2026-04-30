@@ -1689,8 +1689,20 @@
           return `${year}-${month}-${day}`;
         }
 
+        function calculateTodayStats(statsNow) {
+          const todayKey = getDayKey(statsNow);
+          const todayTasks = tasks.filter((task) => getDayKey(task.createdAt) === todayKey);
+          const todayStatusStats = calculateStats(todayTasks);
+
+          return {
+            ...todayStatusStats,
+            activeCount: todayTasks.length,
+            totalCount: todayTasks.length,
+          };
+        }
+
         function saveDailyRecord(recordNow) {
-          const stats = calculateStats(tasks);
+          const stats = calculateTodayStats(recordNow);
           const dayKey = getDayKey(recordNow);
 
           dailyRecords = {
@@ -1700,7 +1712,7 @@
               completedCount: stats.completedCount,
               pettedCount: stats.pettedCount,
               returnedCatCount: stats.returnedCatCount,
-              totalCount: tasks.length,
+              totalCount: stats.totalCount,
             },
           };
 
@@ -2255,7 +2267,7 @@
         }
 
         function renderStats() {
-          const stats = calculateStats(tasks);
+          const stats = calculateTodayStats(Date.now());
 
           statActive.textContent = String(stats.activeCount);
           statCompleted.textContent = String(stats.completedCount);
