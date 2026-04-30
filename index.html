@@ -20,6 +20,12 @@
         overflow-x: hidden;
       }
 
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
       body {
         background-color: rgb(255 213 229);
         background-image: url("./public/todo-bg.png");
@@ -99,6 +105,7 @@
       .field-group {
         display: grid;
         gap: 6px;
+        min-width: 0;
       }
 
       .field-group label {
@@ -109,11 +116,50 @@
 
       .field-group input {
         width: 100%;
+        min-width: 0;
+        max-width: 100%;
         border: 1px solid rgb(203 213 225);
         border-radius: 15px;
         background: rgba(255, 255, 255, 0.96);
         padding: 10px 12px;
         outline: none;
+      }
+
+      .control-strip,
+      .control-strip form {
+        min-width: 0;
+      }
+
+      .control-strip .field-group {
+        max-width: 100%;
+      }
+
+      .control-strip .field-group.min-w-64 {
+        flex: 1 1 min(16rem, 100%);
+        min-width: 0;
+      }
+
+      .control-strip .field-group.w-40 {
+        flex: 0 1 10rem;
+        width: min(10rem, 100%);
+      }
+
+      .control-strip .primary-button {
+        flex: 0 0 auto;
+      }
+
+      .control-strip form > .small-button {
+        flex: 0 0 auto;
+      }
+
+      .control-strip form > .primary-button,
+      .control-strip form > .small-button {
+        width: 108px;
+        min-width: 108px;
+        height: 48px;
+        padding: 0 14px;
+        font-size: 14px;
+        line-height: 1;
       }
 
       .field-group input:focus {
@@ -189,6 +235,68 @@
         color: rgb(185 28 28);
         font-size: 14px;
         font-weight: 800;
+      }
+
+      .quick-add-panel {
+        width: 100%;
+        min-width: 0;
+        border-top: 1px solid rgb(226 232 240);
+        padding-top: 10px;
+      }
+
+      .quick-add-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .quick-add-title {
+        color: rgb(64 64 64);
+        font-size: 13px;
+        font-weight: 900;
+      }
+
+      .quick-add-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        min-width: 0;
+      }
+
+      .quick-add-item {
+        display: inline-flex;
+        max-width: 100%;
+        min-width: 0;
+        align-items: center;
+        gap: 6px;
+        border: 1px solid rgb(226 232 240);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.94);
+        padding: 7px 10px;
+        color: rgb(38 38 38);
+        font-size: 13px;
+        font-weight: 850;
+      }
+
+      .quick-add-item input {
+        flex: 0 0 auto;
+        accent-color: rgb(219 39 119);
+      }
+
+      .quick-add-item span {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .quick-add-empty {
+        color: rgb(82 82 82);
+        font-size: 13px;
+        font-weight: 750;
       }
 
       .workbench {
@@ -602,6 +710,24 @@
           width: 100%;
           min-width: 0;
         }
+
+        .quick-add-toolbar {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .quick-add-toolbar .small-button {
+          width: 100%;
+        }
+
+        .quick-add-list {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .quick-add-item {
+          width: 100%;
+        }
       }
 
       @media (max-width: 520px) {
@@ -661,8 +787,14 @@
         }
 
         .field-group.w-40,
-        .primary-button {
+        .primary-button,
+        .control-strip form > .small-button {
           width: 100%;
+        }
+
+        .control-strip form > .primary-button,
+        .control-strip form > .small-button {
+          min-width: 0;
         }
 
         .park-stage {
@@ -767,22 +899,30 @@
 
       .panel-tab {
         min-width: 52px;
-        border: 2px solid rgb(112 0 56);
+        border: 2px solid rgb(244 114 182);
         border-radius: 12px;
-        background: linear-gradient(180deg, rgb(251 113 183) 0%, rgb(219 39 119) 100%);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgb(253 242 248) 100%);
         box-shadow:
-          inset 2px 2px 0 rgba(255, 255, 255, 0.72),
-          inset -2px -2px 0 rgba(112, 0, 56, 0.34),
-          2px 2px 0 rgb(112 0 56);
-        color: white;
-        text-shadow: 0 1px 0 rgba(80, 7, 36, 0.9);
+          inset 1px 1px 0 rgba(255, 255, 255, 0.8),
+          1px 1px 0 rgb(251 207 232);
+        color: rgb(131 24 67);
+        opacity: 0.62;
+        text-shadow: none;
         padding: 6px 8px;
         font-size: 12px;
         font-weight: 900;
       }
 
       .panel-tab.is-active {
+        border-color: rgb(112 0 56);
         background: linear-gradient(180deg, rgb(255 87 178) 0%, rgb(190 24 93) 100%);
+        box-shadow:
+          inset 2px 2px 0 rgba(255, 255, 255, 0.72),
+          inset -2px -2px 0 rgba(112, 0, 56, 0.34),
+          2px 2px 0 rgb(112 0 56);
+        color: white;
+        opacity: 1;
+        text-shadow: 0 1px 0 rgba(80, 7, 36, 0.9);
       }
 
       .task-list {
@@ -984,8 +1124,16 @@
             <input id="task-deadline" type="time" name="deadline" data-deadline-input />
           </div>
           <button class="primary-button" type="submit">추가</button>
+          <button class="small-button secondary" type="button" data-quick-add-toggle>빠른 추가</button>
         </form>
         <p class="message-line" role="alert" data-message></p>
+        <div class="quick-add-panel" data-quick-add-panel hidden>
+          <div class="quick-add-toolbar">
+            <strong class="quick-add-title">전에 추가했던 할 일</strong>
+            <button class="small-button reward" type="button" data-quick-add-submit>선택 추가</button>
+          </div>
+          <div class="quick-add-list" data-quick-add-list></div>
+        </div>
       </section>
 
       <section class="workbench grid flex-1 grid-cols-[1fr_340px] gap-4">
@@ -1037,6 +1185,7 @@
       const FAILED_CAT_VISIBLE_MS = 5000;
       const TASK_STORAGE_KEY = "today-cat-tasks-v1";
       const DAILY_RECORD_STORAGE_KEY = "today-cat-daily-records-v1";
+      const TASK_HISTORY_STORAGE_KEY = "today-cat-task-history-v1";
 
       function isBlankText(text) {
         return typeof text !== "string" || text.trim().length === 0;
@@ -1360,13 +1509,18 @@
         const pettingHand = document.querySelector("[data-petting-hand]");
         const statActive = document.querySelector("[data-stat-active]");
         const statCompleted = document.querySelector("[data-stat-completed]");
+        const quickAddToggle = document.querySelector("[data-quick-add-toggle]");
+        const quickAddPanel = document.querySelector("[data-quick-add-panel]");
+        const quickAddList = document.querySelector("[data-quick-add-list]");
+        const quickAddSubmit = document.querySelector("[data-quick-add-submit]");
 
         if (
           !form || !taskInput || !deadlineInput || !message || !panelTitle ||
           panelViewButtons.length === 0 || !taskList || !calendarView || !calendarTitle ||
           !calendarGrid || !calendarPrev || !calendarNext || !emptyPark ||
           !currentTime || !catStage || !pettedOverlay || !pettedCat || !pettingHand ||
-          !statActive || !statCompleted
+          !statActive || !statCompleted || !quickAddToggle || !quickAddPanel ||
+          !quickAddList || !quickAddSubmit
         ) {
           return;
         }
@@ -1376,6 +1530,7 @@
         let calendarMonth = new Date(now);
         let dailyRecords = loadDailyRecords();
         let tasks = loadStoredTasks();
+        let taskHistory = loadTaskHistory(tasks);
         let lastSavedTasksText = "";
         let lastSavedRecordsText = "";
 
@@ -1427,6 +1582,75 @@
             Number.isFinite(task.createdAt) &&
             Number.isFinite(task.deadlineAt)
           ));
+        }
+
+        function normalizeTaskText(text) {
+          return typeof text === "string" ? text.trim().replace(/\s+/g, " ") : "";
+        }
+
+        function loadTaskHistory(seedTasks) {
+          const savedHistory = readStoredJson(TASK_HISTORY_STORAGE_KEY, []);
+          const historyMap = new Map();
+
+          if (Array.isArray(savedHistory)) {
+            savedHistory.forEach((item) => {
+              const text = normalizeTaskText(typeof item === "string" ? item : item?.text);
+
+              if (!text) {
+                return;
+              }
+
+              historyMap.set(text, {
+                text,
+                lastUsedAt: Number.isFinite(item?.lastUsedAt) ? item.lastUsedAt : 0,
+                useCount: Number.isFinite(item?.useCount) ? item.useCount : 1,
+              });
+            });
+          }
+
+          seedTasks.forEach((task) => {
+            const text = normalizeTaskText(task.text);
+
+            if (!text) {
+              return;
+            }
+
+            const savedItem = historyMap.get(text);
+            historyMap.set(text, {
+              text,
+              lastUsedAt: Math.max(savedItem?.lastUsedAt ?? 0, task.createdAt ?? 0),
+              useCount: Math.max(savedItem?.useCount ?? 1, 1),
+            });
+          });
+
+          return [...historyMap.values()]
+            .sort((left, right) => right.lastUsedAt - left.lastUsedAt)
+            .slice(0, 24);
+        }
+
+        function saveTaskHistory() {
+          writeStoredJson(TASK_HISTORY_STORAGE_KEY, taskHistory);
+        }
+
+        function rememberTaskText(text, usedAt) {
+          const normalizedText = normalizeTaskText(text);
+
+          if (!normalizedText) {
+            return;
+          }
+
+          const existingItem = taskHistory.find((item) => item.text === normalizedText);
+          const nextItem = {
+            text: normalizedText,
+            lastUsedAt: usedAt,
+            useCount: (existingItem?.useCount ?? 0) + 1,
+          };
+
+          taskHistory = [
+            nextItem,
+            ...taskHistory.filter((item) => item.text !== normalizedText),
+          ].slice(0, 24);
+          saveTaskHistory();
         }
 
         function loadDailyRecords() {
@@ -1536,6 +1760,35 @@
           pettingHand.hidden = false;
           isDragging = true;
           lastMoveAt = performance.now();
+        }
+
+        function isPointOnPettedCat(clientX, clientY) {
+          const rect = pettedCat.getBoundingClientRect();
+          return (
+            clientX >= rect.left &&
+            clientX <= rect.right &&
+            clientY >= rect.top &&
+            clientY <= rect.bottom
+          );
+        }
+
+        function followPointer(event) {
+          if (!pettingActive) {
+            return;
+          }
+
+          positionHand(event.clientX, event.clientY);
+          pettingHand.hidden = false;
+          if (isDragging && isPointOnPettedCat(event.clientX, event.clientY)) {
+            lastMoveAt = performance.now();
+            return;
+          }
+
+          if (isDragging) {
+            isDragging = false;
+            pettingHand.classList.remove("is-rubbing");
+            pettedCat.classList.remove("is-being-petted");
+          }
         }
 
         function updatePettingProgress() {
@@ -1666,13 +1919,7 @@
           }
         });
 
-        pettedCat.addEventListener("pointermove", (event) => {
-          if (!isDragging) {
-            return;
-          }
-          lastMoveAt = performance.now();
-          positionHand(event.clientX, event.clientY);
-        });
+        pettedOverlay.addEventListener("pointermove", followPointer);
 
         const releaseDrag = () => {
           isDragging = false;
@@ -1681,7 +1928,7 @@
 
         pettedCat.addEventListener("pointerup", releaseDrag);
         pettedCat.addEventListener("pointercancel", releaseDrag);
-        pettedCat.addEventListener("pointerleave", releaseDrag);
+        pettedOverlay.addEventListener("pointerleave", releaseDrag);
         pettedOverlay.addEventListener("touchmove", (event) => {
           event.preventDefault();
         }, { passive: false });
@@ -1897,6 +2144,53 @@
           emptyPark.hidden = tasks.length > 0;
         }
 
+        function getQuickAddOptions() {
+          const todayKey = getDayKey(Date.now());
+          const todayTaskTexts = new Set(
+            tasks
+              .filter((task) => getDayKey(task.createdAt) === todayKey)
+              .map((task) => normalizeTaskText(task.text)),
+          );
+
+          return taskHistory.filter((item) => !todayTaskTexts.has(item.text));
+        }
+
+        function renderQuickAdd() {
+          const checkedTexts = new Set(
+            [...quickAddList.querySelectorAll("[data-quick-add-checkbox]:checked")]
+              .map((checkbox) => checkbox.value),
+          );
+          const options = getQuickAddOptions();
+
+          quickAddList.textContent = "";
+
+          if (options.length === 0) {
+            const empty = document.createElement("p");
+            empty.className = "quick-add-empty";
+            empty.textContent = "아직 빠르게 추가할 이전 할 일이 없어요.";
+            quickAddList.appendChild(empty);
+            quickAddSubmit.disabled = true;
+            return;
+          }
+
+          quickAddSubmit.disabled = false;
+          options.forEach((item) => {
+            const label = document.createElement("label");
+            const checkbox = document.createElement("input");
+            const text = document.createElement("span");
+
+            label.className = "quick-add-item";
+            checkbox.type = "checkbox";
+            checkbox.value = item.text;
+            checkbox.dataset.quickAddCheckbox = "";
+            checkbox.checked = checkedTexts.has(item.text);
+            text.textContent = item.text;
+
+            label.append(checkbox, text);
+            quickAddList.appendChild(label);
+          });
+        }
+
         function createCalendarCount(label, count) {
           const item = document.createElement("span");
           item.className = "calendar-count";
@@ -1985,6 +2279,9 @@
           renderStats();
           renderTasks();
           renderPanelView();
+          if (!quickAddPanel.hidden) {
+            renderQuickAdd();
+          }
           catScene.update(tasks, now, pendingPetTaskId);
         }
 
@@ -2022,6 +2319,49 @@
           render();
         });
 
+        quickAddToggle.addEventListener("click", () => {
+          quickAddPanel.hidden = !quickAddPanel.hidden;
+
+          if (!quickAddPanel.hidden) {
+            renderQuickAdd();
+          }
+        });
+
+        quickAddSubmit.addEventListener("click", () => {
+          const selectedTexts = [...quickAddList.querySelectorAll("[data-quick-add-checkbox]:checked")]
+            .map((checkbox) => checkbox.value);
+
+          if (selectedTexts.length === 0) {
+            setMessage("추가할 항목을 선택해 주세요");
+            return;
+          }
+
+          if (!deadlineInput.value) {
+            setMessage("마감 시간을 입력해 주세요");
+            deadlineInput.focus();
+            return;
+          }
+
+          const submittedAt = Date.now();
+          const deadlineAt = parseDeadlineTime(deadlineInput.value, submittedAt);
+
+          if (!isValidFutureDeadline(deadlineAt, submittedAt)) {
+            setMessage("현재 시각보다 늦은 마감 시간을 입력해 주세요");
+            deadlineInput.focus();
+            return;
+          }
+
+          selectedTexts.forEach((text) => {
+            tasks = addTask(tasks, text, deadlineAt, submittedAt);
+            rememberTaskText(text, submittedAt);
+          });
+
+          requestReminderPermission().catch(() => {});
+          setMessage("");
+          renderQuickAdd();
+          render();
+        });
+
         form.addEventListener("submit", (event) => {
           event.preventDefault();
 
@@ -2049,12 +2389,15 @@
 
           requestReminderPermission().catch(() => {});
           tasks = nextTasks;
+          rememberTaskText(taskInput.value, submittedAt);
           taskInput.value = "";
           setMessage("");
+          renderQuickAdd();
           render();
         });
 
         setInterval(render, 250);
+        renderQuickAdd();
         render();
       }
 
