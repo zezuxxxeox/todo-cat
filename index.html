@@ -1677,6 +1677,9 @@
         }, { passive: false });
         pettedOverlay.addEventListener("wheel", (event) => {
           event.preventDefault();
+          if (pettingActive) {
+            moveHandWithScroll(event.deltaX, event.deltaY);
+          }
         }, { passive: false });
 
         function setMessage(text) {
@@ -1964,6 +1967,7 @@
         function render() {
           now = Date.now();
           tasks = failOverdueTasks(tasks, now);
+          tasks = hideExpiredFailedCats(tasks, now);
           saveTasks();
           saveDailyRecord(now);
           notifyUpcomingDeadlines(now);
